@@ -61,7 +61,7 @@ def process_video(video_path, emotion, landmark_df, face_mesh, drawing_spec):
 
         # Save every 1000 frames to avoid data loss
         if frame_counter % 1000 == 0:
-            landmark_df.to_excel("landmarks.xlsx", index=False)
+            landmark_df.to_excel("landmarks_demo.xlsx", index=False)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -77,7 +77,7 @@ def extract_landmarks_from_videos(folder_path):
     face_mesh = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
     # Drawing specification
-    drawing_spec = mp.solutions.drawing_utils.DrawingSpec(color=(0, 255, 0), thickness=1, circle_radius=2)
+    drawing_spec = mp.solutions.drawing_utils.DrawingSpec(color=(0, 255, 0), thickness=1, circle_radius=3)
 
     # Define columns for the landmarks DataFrame
     columns = ['label'] + [f"Landmark_{i}_x" for i in range(468)] + [f"Landmark_{i}_y" for i in range(468)]
@@ -99,7 +99,7 @@ def extract_landmarks_from_videos(folder_path):
             landmark_df = process_video(video_path, emotion, landmark_df, face_mesh, drawing_spec)
 
     # Save the final DataFrame to an Excel file
-    landmark_df.to_excel("landmarks.xlsx", index=False)
+    landmark_df.to_excel("landmarks_demo.xlsx", index=False)
     print("Landmark extraction complete. Data saved to 'landmarks.xlsx'.")
 
     # Close OpenCV windows
